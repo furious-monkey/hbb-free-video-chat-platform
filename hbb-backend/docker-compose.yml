@@ -1,0 +1,52 @@
+version: '3'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  cache:
+    image: 'redis'
+    container_name: cache
+    expose:
+      - 6379
+    networks:
+      - app-tier
+
+  database:
+    container_name: postgres_db
+    image: postgres:14.6
+    ports:
+      - '5432:5432'
+    restart: always
+    environment:
+      - POSTGRES_DB=hbb_db
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+    networks:
+      - app-tier
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - '8081:8081'
+    environment:
+      ADMINER_DEFAULT_SERVER: database
+      ADMINER_DESIGN: 'pepa-linha'
+    networks:
+      - app-tier
+
+  api:
+    container_name: api
+    restart: always
+    depends_on:
+      - database
+      - cache
+    build:
+      context: .
+      dockerfile: dockerFile
+    ports:
+      - '8080:8080'
+    networks:
+      - app-tier

@@ -1,0 +1,13 @@
+.env
+
+.idea
+
+.DS_Store
+
+
+dist
+
+node_modules
+
+
+src/emails/temp.html

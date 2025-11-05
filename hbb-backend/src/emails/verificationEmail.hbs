@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #000;
+      }
+
+      img {
+        pointer-events: none !important;
+      }
+
+      .global-container {
+        max-width: 740px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 555px;
+        margin: 64px auto 0;
+      }
+
+      .header-logo img {
+        display: block;
+        margin: 0 auto;
+        height: 64px;
+        width: 64px;
+      }
+
+      .banner img {
+        width: 100%;
+        height: auto;
+      }
+
+      .content {
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .main-title {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 140%;
+        color: #121a26;
+      }
+
+      .sub-title {
+        font-size: 16px;
+        color: #161615;
+        margin: 8px 0;
+        font-weight: 300;
+      }
+
+      .message {
+        font-size: 16px;
+        color: #161615;
+        font-weight: 300;
+        width: 314px;
+        margin: 0 auto;
+      }
+
+      .otp-container {
+        background: #d7e4e9;
+        padding: 16px 80px;
+        border-radius: 6px;
+        display: inline-block;
+        margin: 20px 0;
+        font-size: 24px;
+        color: #000;
+      }
+
+      .alert-message {
+        font-size: 16px;
+        font-weight: 300 !important;
+        color: #A1A1A1 !important;
+        width: 314px;
+        margin: 20px auto;
+        text-align: center;
+      }
+
+      .footer {
+        background: #F8F7F1;
+        color: #000000;
+        text-align: center;
+        font-size: 10px;
+        padding: 8px 8px 32px;
+      }
+
+      .social-icons {
+        margin: 20px 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      .social-icons img {
+        height: 32px;
+        margin: 0 10px;
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid #eeede6;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="global-container">
+      <div class="container">
+        <div class="header-logo">
+          <img
+            src="https://hbb-client.vercel.app/img/email/logo.png"
+            alt="logo"
+          />
+        </div>
+        <hr />
+        <hr />
+        <div class="banner">
+          <img
+            src="https://hbb-client.vercel.app/img/email/banner.png"
+            alt="banner"
+          />
+        </div>
+        <div class="content">
+          <p class="main-title">Email confirmation</p>
+          <p class="sub-title">Hello,</p>
+          <p class="message">
+            Please use the 6 digit token below to reset your password
+          </p>
+          <div class="otp-container">{{otp}}</div>
+          <p class="alert-message">
+            If you don't recognise this activity, please contact us immediately
+            via <br/> <a href="mailto:security@honeybunnybun.com" style="text-decoration: none; color:#A1A1A1;">security@honeybunnybun.com</a>
+
+          </p>
+          <hr />
+
+          <p class="alert-message">
+            Thanks for your time,<br />The Honey Bunny Bun Team
+          </p>
+        </div>
+        <hr />
+        <table
+          style="table-layout: fixed; width: 100%"
+          align="center"
+          border="0"
+          cellpadding="0"
+          cellspacing="0"
+        >
+          <tr>
+            <td align="center" bgcolor="#ffffff" style="padding: 20px 0">
+              <table
+                style="margin: 0 auto"
+                border="0"
+                cellpadding="0"
+                cellspacing="0"
+              >
+                <tr class="social-icons">
+                  <td>
+                    <a
+                      href="https://www.instagram.com/honeybunnybun"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src="https://hbb-client.vercel.app/img/email/insta.png"
+                        alt="Instagram"
+                      />
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      href="https://www.tiktok.com/@honeybunnybun"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src="https://hbb-client.vercel.app/img/email/tiktok.png"
+                        alt="TikTok"
+                      />
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      href="https://www.twitch.tv/honeybunnybun"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src="https://hbb-client.vercel.app/img/email/twitch.png"
+                        alt="Twitch"
+                      />
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="footer">&copy; 2024 Honey Bunny Bun. All rights reserved.</div>
+  </body>
+</html>

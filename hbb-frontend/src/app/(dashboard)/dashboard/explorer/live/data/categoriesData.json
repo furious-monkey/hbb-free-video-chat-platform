@@ -1,0 +1,73 @@
+[
+    {
+      "id": "20000000-0000-0000-0000-000000000001",
+      "name": "Yoga",
+      "imageDetails": {
+        "url": "https://hunnybunnybun.s3.us-east-2.amazonaws.com/images/b7b8b339-8c22-4af0-8338-c6738bd0437d_1729478226168"
+      }
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000002",
+      "name": "Writer",
+      "imageDetails": {
+        "url": "https://hunnybunnybun.s3.us-east-2.amazonaws.com/images/f1112ec8-bafa-4bfe-8b72-d52ad1fc0ece_1729478290159"
+      }
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000003",
+      "name": "Vacation",
+      "imageDetails": {
+        "url": "https://hunnybunnybun.s3.us-east-2.amazonaws.com/images/fd7686d8-9e9a-41ff-8846-dbdda887ae0e_1729478331573"
+      }
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000004",
+      "name": "Tv & Movies",
+      "imageDetails": {
+        "url": "https://hunnybunnybun.s3.us-east-2.amazonaws.com/images/ee25877a-d236-4834-b3e7-96194ec2ad82_1729478373589"
+      }
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000005",
+      "name": "Travel",
+      "imageDetails": {
+        "url": "https://hunnybunnybun.s3.us-east-2.amazonaws.com/images/31ff261d-267b-4b50-b71c-1ab9ed664880_1729478414816"
+      }
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000006",
+      "name": "Tech",
+      "imageDetails": {
+        "url": "https://hunnybunnybun.s3.us-east-2.amazonaws.com/images/15ce7227-345b-4279-890e-2e3f0a1ac477_1729478453569"
+      }
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000007",
+      "name": "Sports",
+      "imageDetails": {
+        "url": "https://hunnybunnybun.s3.us-east-2.amazonaws.com/images/9ba13a86-78af-4458-8b60-26f5724957d4_1729478681852"
+      }
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000008",
+      "name": "Photographer",
+      "imageDetails": {
+        "url": "https://hunnybunnybun.s3.us-east-2.amazonaws.com/images/1c700d11-c8a2-4784-b384-dfd0be899c13_1729478716087"
+      }
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000009",
+      "name": "Pet",
+      "imageDetails": {
+        "url": "https://hunnybunnybun.s3.us-east-2.amazonaws.com/images/45877ff3-c0b6-478c-89ff-815ff8fcaa87_1729478760973"
+      }
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000010",
+      "name": "Music",
+      "imageDetails": {
+        "url": "https://hunnybunnybun.s3.us-east-2.amazonaws.com/images/b69a4360-0f4b-4fae-aa18-771b1bdcc2d3_1729478823292"
+      }
+    }
+  ]
+  

@@ -1,0 +1,377 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  INFLUENCER
+  EXPLORER
+  ADMIN
+  AGENCY
+}
+
+enum SubscriptionPlan {
+  FREE
+  STANDARD
+  PREMIUM
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum AppointmentStatus {
+  PENDING
+  ACCEPTED
+  CANCELLED
+  COMPLETED
+}
+
+enum ReportReason {
+  CATFISHING
+  MISCONDUCT
+  HARASSMENT
+  ILLEGAL_ACTIVITY
+  OTHER
+}
+
+enum StreamStatus {
+  PENDING
+  LIVE
+  ENDED
+}
+
+model User {
+  id                      String          @id @default(uuid())
+  userRole                UserType
+  email                   String          @unique
+  password                String
+  firstName               String?
+  lastName                String?
+  age                     Int?
+  gender                  String?
+  referralCode            String?
+  ownedReferralCode       String?
+  dateOfBirth             DateTime?
+  phone                   String?
+  profileImage            String?
+  promotionalVideo        String[]
+  isOnline                Boolean         @default(false)
+  isBanned                Boolean         @default(false)
+  isEmailVerified         Boolean         @default(false)
+  isDeleted               Boolean         @default(false)
+  createdAt               DateTime        @default(now())
+  updatedAt               DateTime        @updatedAt
+  emailNotifications      Boolean         @default(false)
+  pushNotifications       Boolean         @default(false)
+  blockedUsers            String[]
+  cards                   Card[]
+  otp                     String?
+  otpExpires              DateTime?
+  profile                 Profile?
+  profileViews            ProfileView[]   @relation("ViewerProfileViews")
+  viewedProfiles          ProfileView[]   @relation("ViewedUserProfileViews")
+  stripeCustomer          StripeCustomer?
+  giftsSent               Gift[]          @relation("GiftSender")
+  giftsReceived           Gift[]          @relation("GiftReceiver")
+  streams                 StreamSession[] @relation("StreamInfluencer")
+  transactions            Transaction[]
+  callerAppointments      Appointment[]   @relation("CallerAppointments")
+  receiverAppointments    Appointment[]   @relation("ReceiverAppointments")
+  currentStreams          StreamSession[] @relation("StreamExplorer") // Add this line
+  Bid                     Bid[]
+  reportsSent             Report[]        @relation("ReporterReports")
+  reportsReceived         Report[]        @relation("ReportedReports")
+  callHistoriesInfluencer CallHistory[]   @relation("CallHistoryInfluencer")
+  callHistoriesExplorer   CallHistory[]   @relation("CallHistoryExplorer")
+  billingSessionsExplorer BillingSession[] @relation("BillingSessionExplorer")
+  billingSessionsInfluencer BillingSession[] @relation("BillingSessionInfluencer")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Profile {
+  id                 String              @id @default(uuid())
+  userId             String              @unique
+  user               User                @relation(fields: [userId], references: [id])
+  username           String?             @unique
+  bio                String?
+  location           String?
+  interests          String[]
+  category           String[]
+  zodiacSign         String?
+  callRate           String?
+  likedProfiles      String[]
+  subscriptionPlan   SubscriptionPlan?
+  subscriptionStatus SubscriptionStatus?
+  viewCount          Int                 @default(0)
+  likes              Int                 @default(0)
+  allowLike          Int?
+}
+
+model Interest {
+  id        String   @id @default(uuid())
+  image     String?
+  name      String   @unique
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ZodiacSign {
+  id        String   @id @default(uuid())
+  image     String
+  name      String   @unique
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Card {
+  id         String @id @default(uuid())
+  userId     String
+  user       User   @relation(fields: [userId], references: [id])
+  cardNumber String
+  expiryDate String
+  cvv        String
+  nameOnCard String
+}
+
+model Image {
+  id        String   @id @default(cuid())
+  url       String?
+  ETag      String?
+  Location  String?
+  key       String?
+  Bucket    String?
+  UserId    String?
+  createdAt DateTime @default(now())
+}
+
+model Video {
+  id        String   @id @default(cuid())
+  url       String?
+  ETag      String?
+  Location  String?
+  key       String?
+  Bucket    String?
+  UserId    String?
+  createdAt DateTime @default(now())
+}
+
+model Appointment {
+  id                 String             @id @default(uuid())
+  callerId           String?
+  receiverId         String?
+  status             AppointmentStatus? @default(PENDING)
+  date               DateTime
+  appointmentReached Boolean            @default(false)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  caller   User? @relation("CallerAppointments", fields: [callerId], references: [id])
+  receiver User? @relation("ReceiverAppointments", fields: [receiverId], references: [id])
+}
+
+model Report {
+  id             String         @id @default(uuid())
+  reporterId     String
+  reportedUserId String
+  category       ReportReason[]
+  reportMessage  String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  reporter     User @relation("ReporterReports", fields: [reporterId], references: [id])
+  reportedUser User @relation("ReportedReports", fields: [reportedUserId], references: [id])
+}
+
+model ProfileView {
+  id           String   @id @default(uuid())
+  viewerId     String
+  viewedUserId String
+  dateViewed   DateTime @default(now())
+  viewer       User     @relation("ViewerProfileViews", fields: [viewerId], references: [id])
+  viewedUser   User     @relation("ViewedUserProfileViews", fields: [viewedUserId], references: [id])
+}
+
+model FAQ {
+  id        String   @id @default(uuid())
+  question  String
+  answer    String
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserGuide {
+  id        String   @id @default(uuid())
+  issue     String
+  fix       String
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StripeCustomer {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  stripeCustomerId String   @unique
+  user             User     @relation(fields: [userId], references: [id])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Transaction {
+  id              String   @id @default(uuid())
+  userId          String
+  amount          Float
+  currency        String   @default("USD")
+  type            String // e.g., "SIGNUP_FEE", "MEMBERSHIP_FEE", "GIFT", "LIVE_STREAM"
+  status          String // e.g., "PENDING", "COMPLETED", "FAILED", "REFUNDED"
+  stripePaymentId String? // Payment intent ID from Stripe or other payment provider
+  paymentMethod   String? // e.g., "card", "apple_pay", "paypal"
+  description     String?
+  metadata        Json? // Additional metadata (e.g., user details, custom data)
+  user            User     @relation(fields: [userId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model StreamSession {
+  id                String        @id @default(uuid())
+  influencerId      String
+  currentExplorerId String?
+  status            StreamStatus  @default(PENDING)
+  allowBids         Boolean       @default(false) // Add allowBids
+  startTime         DateTime?
+  endTime           DateTime?
+  duration          Int? // in seconds
+  earnings          Float         @default(0)
+  gifts             Gift[]
+  influencer        User          @relation("StreamInfluencer", fields: [influencerId], references: [id])
+  currentExplorer   User?         @relation("StreamExplorer", fields: [currentExplorerId], references: [id])
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  bids              Bid[]
+  callHistories     CallHistory[]
+  billingSessions   BillingSession[]
+}
+
+model Gift {
+  id              String   @id @default(uuid())
+  streamSessionId String
+  senderId        String
+  receiverId      String
+  giftTypeId      String
+  amount          Float
+  message         String?
+  createdAt       DateTime @default(now())
+
+  streamSession StreamSession @relation(fields: [streamSessionId], references: [id])
+  sender        User          @relation("GiftSender", fields: [senderId], references: [id])
+  receiver      User          @relation("GiftReceiver", fields: [receiverId], references: [id])
+  giftType      GiftType      @relation(fields: [giftTypeId], references: [id])
+}
+
+model GiftType {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  imageUrl  String
+  soundUrl  String
+  price     Float
+  isActive  Boolean  @default(true)
+  gifts     Gift[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Bid {
+  id              String    @id @default(uuid())
+  streamSessionId String
+  explorerId      String
+  amount          Float
+  status          BidStatus @default(PENDING)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  streamSession StreamSession @relation(fields: [streamSessionId], references: [id])
+  explorer      User          @relation(fields: [explorerId], references: [id])
+}
+
+enum BidStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model CallHistory {
+  id              String    @id @default(uuid())
+  streamSessionId String
+  influencerId    String
+  explorerId      String?
+  startTime       DateTime
+  endTime         DateTime?
+  duration        Int?
+  earnings        Float?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  streamSession StreamSession @relation(fields: [streamSessionId], references: [id])
+  influencer    User          @relation("CallHistoryInfluencer", fields: [influencerId], references: [id])
+  explorer      User?         @relation("CallHistoryExplorer", fields: [explorerId], references: [id])
+}
+
+
+model BillingSession {
+  id                    String   @id @default(uuid())
+  streamSessionId       String
+  explorerId            String
+  influencerId          String
+  bidAmount             Float
+  startTime             DateTime
+  endTime               DateTime?
+  duration              Int? // in seconds
+  chargedAmount         Float
+  status                BillingStatus @default(PENDING)
+  stripePaymentIntentId String?
+  stripePaymentMethodId String?
+  stripeChargeId        String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  streamSession StreamSession @relation(fields: [streamSessionId], references: [id])
+  explorer      User          @relation("BillingSessionExplorer", fields: [explorerId], references: [id])
+  influencer    User          @relation("BillingSessionInfluencer", fields: [influencerId], references: [id])
+}
+
+enum BillingStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+model Waitlist {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  location     String
+  ageConfirmed Boolean  @default(false)
+  referralCode String?  @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
